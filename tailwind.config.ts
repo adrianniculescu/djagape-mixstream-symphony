@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,15 +53,17 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				// Custom DJ platform colors
+				dj: {
+					background: '#121212',
+					primary: '#1DB954',
+					secondary: '#1E90FF',
+					accent: '#9370DB',
+					text: '#FFFFFF',
+					muted: '#B3B3B3',
+					dark: '#0F0F0F',
+					deck1: '#1E90FF',
+					deck2: '#9370DB',
 				}
 			},
 			borderRadius: {
@@ -84,11 +87,31 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'equalizer': {
+					'0%, 100%': {
+						height: '0.5rem'
+					},
+					'50%': {
+						height: '2rem'
+					}
+				},
+				'spin-slow': {
+					from: {
+						transform: 'rotate(0deg)'
+					},
+					to: {
+						transform: 'rotate(360deg)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'equalizer-1': 'equalizer 1s ease-in-out infinite',
+				'equalizer-2': 'equalizer 1.4s ease-in-out infinite',
+				'equalizer-3': 'equalizer 0.8s ease-in-out infinite',
+				'spin-slow': 'spin-slow 8s linear infinite'
 			}
 		}
 	},
