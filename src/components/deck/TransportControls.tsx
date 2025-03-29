@@ -1,0 +1,45 @@
+
+import React from 'react';
+import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+
+interface TransportControlsProps {
+  isPlaying: boolean;
+  deckColor: string;
+  togglePlay: () => void;
+}
+
+const TransportControls: React.FC<TransportControlsProps> = ({
+  isPlaying,
+  deckColor,
+  togglePlay
+}) => {
+  return (
+    <div className="flex justify-center gap-3">
+      <Button size="icon" variant="outline">
+        <SkipBack className="h-4 w-4" />
+      </Button>
+      <Button 
+        onClick={togglePlay}
+        className={`bg-${deckColor} hover:bg-${deckColor}/80 px-6`}
+      >
+        {isPlaying ? (
+          <>
+            <Pause className="mr-2 h-4 w-4" />
+            Pause
+          </>
+        ) : (
+          <>
+            <Play className="mr-2 h-4 w-4" />
+            Play
+          </>
+        )}
+      </Button>
+      <Button size="icon" variant="outline">
+        <SkipForward className="h-4 w-4" />
+      </Button>
+    </div>
+  );
+};
+
+export default TransportControls;
