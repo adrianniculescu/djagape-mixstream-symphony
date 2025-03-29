@@ -5,7 +5,7 @@ import MixerDeck from '../components/MixerDeck';
 import { Slider } from "@/components/ui/slider";
 import TrackList from '../components/TrackList';
 import { Button } from '@/components/ui/button';
-import { Disc, Mic, Record, Save } from 'lucide-react';
+import { Disc, Mic, CircleStop, Save } from 'lucide-react';
 import { Track } from '../components/TrackList';
 
 const MixerPage = () => {
@@ -74,7 +74,7 @@ const MixerPage = () => {
               onClick={() => setIsRecording(!isRecording)}
               className={isRecording ? "bg-red-600 hover:bg-red-700" : "bg-gray-800 hover:bg-gray-700"}
             >
-              <Record className={`mr-2 h-4 w-4 ${isRecording ? "animate-pulse" : ""}`} />
+              <CircleStop className={`mr-2 h-4 w-4 ${isRecording ? "animate-pulse" : ""}`} />
               {isRecording ? "Stop Recording" : "Start Recording"}
             </Button>
             <Button variant="outline" disabled={!isRecording}>

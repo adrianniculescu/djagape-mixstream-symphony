@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Music, Headphones, Upload, Library, Disc, Waveform } from 'lucide-react';
+import { Play, Music, Headphones, Upload, Library, Disc, BarChart2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import NavBar from '../components/NavBar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,14 +21,18 @@ const Index = () => {
             The ultimate platform for DJs to discover, mix, and share music
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" className="bg-dj-primary hover:bg-dj-primary/80">
-              <Headphones className="mr-2 h-5 w-5" />
-              Try the Mixer
-            </Button>
-            <Button size="lg" variant="outline" className="border-dj-accent text-dj-accent hover:bg-dj-accent/10">
-              <Library className="mr-2 h-5 w-5" />
-              Browse Library
-            </Button>
+            <Link to="/mixer">
+              <Button size="lg" className="bg-dj-primary hover:bg-dj-primary/80">
+                <Headphones className="mr-2 h-5 w-5" />
+                Try the Mixer
+              </Button>
+            </Link>
+            <Link to="/library">
+              <Button size="lg" variant="outline" className="border-dj-accent text-dj-accent hover:bg-dj-accent/10">
+                <Library className="mr-2 h-5 w-5" />
+                Browse Library
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -89,7 +93,7 @@ const Index = () => {
             />
             
             <FeatureCard 
-              icon={<Waveform className="h-8 w-8 text-dj-accent" />}
+              icon={<BarChart2 className="h-8 w-8 text-dj-accent" />}
               title="Audio Analysis"
               description="Automatic track analysis for perfect beatmatching and harmonic mixing."
             />
