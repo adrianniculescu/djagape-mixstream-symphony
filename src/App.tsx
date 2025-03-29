@@ -7,16 +7,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import SettingsPage from "./pages/SettingsPage";
+import MixerPage from "./pages/MixerPage";
 
-// Since MixerPage and LibraryPage might not exist yet, 
-// let's create placeholder components for them
-const MixerPage = () => (
-  <div className="min-h-screen bg-dj-background text-dj-text pt-20 px-4">
-    <h1 className="text-3xl font-bold mb-6">DJ Mixer</h1>
-    <p>Mixer page content will be displayed here.</p>
-  </div>
-);
-
+// LibraryPage might not exist yet, let's create a placeholder component
 const LibraryPage = () => (
   <div className="min-h-screen bg-dj-background text-dj-text pt-20 px-4">
     <h1 className="text-3xl font-bold mb-6">Music Library</h1>
