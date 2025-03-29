@@ -2,6 +2,7 @@
 import React from 'react';
 import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface TransportControlsProps {
   isPlaying: boolean;
@@ -21,7 +22,7 @@ const TransportControls: React.FC<TransportControlsProps> = ({
       </Button>
       <Button 
         onClick={togglePlay}
-        className={`bg-${deckColor} hover:bg-${deckColor}/80 px-6`}
+        className={cn(`bg-${deckColor} hover:bg-${deckColor}/80 px-6`)}
       >
         {isPlaying ? (
           <>

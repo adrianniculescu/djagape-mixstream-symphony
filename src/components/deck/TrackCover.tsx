@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { cn } from "@/lib/utils";
 
 interface TrackCoverProps {
   coverUrl: string;
@@ -23,7 +24,7 @@ const TrackCover: React.FC<TrackCoverProps> = ({
       />
       {isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-16 h-16 rounded-full bg-${deckColor}/80 animate-spin-slow flex items-center justify-center`}>
+          <div className={cn(`w-16 h-16 rounded-full bg-${deckColor}/80 animate-spin-slow flex items-center justify-center`)}>
             <div className="w-4 h-4 rounded-full bg-black"></div>
           </div>
         </div>

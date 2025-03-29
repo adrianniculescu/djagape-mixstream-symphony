@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Repeat, Shuffle, BarChart2 } from 'lucide-react';
+import { cn } from "@/lib/utils";
 
 interface DeckHeaderProps {
   deckLabel: string;
@@ -22,12 +23,12 @@ const DeckHeader: React.FC<DeckHeaderProps> = ({
 }) => {
   return (
     <div className="flex items-center justify-between mb-3">
-      <h3 className={`text-lg font-bold text-${deckColor}`}>Deck {deckLabel}</h3>
+      <h3 className={cn(`text-lg font-bold text-${deckColor}`)}>Deck {deckLabel}</h3>
       <div className="flex gap-2">
         <Button 
           variant="outline" 
           size="icon" 
-          className={`h-7 w-7 ${loopEnabled ? `border-${deckColor} text-${deckColor}` : ''}`}
+          className={cn(`h-7 w-7`, loopEnabled ? `border-${deckColor} text-${deckColor}` : '')}
           onClick={() => setLoopEnabled(!loopEnabled)}
         >
           <Repeat className="h-3.5 w-3.5" />
@@ -42,7 +43,7 @@ const DeckHeader: React.FC<DeckHeaderProps> = ({
         <Button 
           variant="outline" 
           size="icon" 
-          className={`h-7 w-7 ${showEffects ? `border-${deckColor} text-${deckColor}` : ''}`}
+          className={cn(`h-7 w-7`, showEffects ? `border-${deckColor} text-${deckColor}` : '')}
           onClick={() => setShowEffects(!showEffects)}
         >
           <BarChart2 className="h-3.5 w-3.5" />

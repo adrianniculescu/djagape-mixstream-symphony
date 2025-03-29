@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Collapsible } from "@/components/ui/collapsible";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import DeckHeader from './deck/DeckHeader';
 import TrackCover from './deck/TrackCover';
 import TrackWaveform from './deck/TrackWaveform';
@@ -39,7 +39,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   const deckLabel = side === 'left' ? 'A' : 'B';
 
   return (
-    <div className={`bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col`}>
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col">
       <DeckHeader 
         deckLabel={deckLabel} 
         deckColor={deckColor}
@@ -78,7 +78,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
         </div>
       </div>
 
-      <Collapsible open={showEffects} onOpenChange={setShowEffects} className="mb-3">
+      <Collapsible open={showEffects} onOpenChange={setShowEffects}>
         <DeckEffects showEffects={showEffects} />
       </Collapsible>
 
