@@ -60,16 +60,17 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
           >
             <Shuffle className="h-3.5 w-3.5" />
           </Button>
-          <CollapsibleTrigger asChild>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className={`h-7 w-7 ${showEffects ? `border-${deckColor} text-${deckColor}` : ''}`}
-              onClick={() => setShowEffects(!showEffects)}
-            >
-              <BarChart2 className="h-3.5 w-3.5" />
-            </Button>
-          </CollapsibleTrigger>
+          <Collapsible open={showEffects} onOpenChange={setShowEffects}>
+            <CollapsibleTrigger asChild>
+              <Button 
+                variant="outline" 
+                size="icon" 
+                className={`h-7 w-7 ${showEffects ? `border-${deckColor} text-${deckColor}` : ''}`}
+              >
+                <BarChart2 className="h-3.5 w-3.5" />
+              </Button>
+            </CollapsibleTrigger>
+          </Collapsible>
         </div>
       </div>
 
@@ -170,7 +171,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
         </div>
       </div>
 
-      <Collapsible open={showEffects} className="mb-3">
+      <Collapsible open={showEffects} onOpenChange={setShowEffects}>
         <CollapsibleContent>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-gray-900 rounded-md mb-3">
             <div className="space-y-1">
@@ -255,3 +256,4 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
 };
 
 export default MixerDeck;
+
