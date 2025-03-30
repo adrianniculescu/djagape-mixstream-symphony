@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Music2, Globe, Headphones } from "lucide-react";
+import { Globe, Headphones } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 
@@ -36,7 +36,11 @@ const StreamingServiceIntegration = () => {
         
         <TabsContent value="spotify" className="space-y-4">
           <div className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg">
-            <Music2 className="h-12 w-12 text-green-500" />
+            <img 
+              src="/lovable-uploads/a79dd8ce-7ca8-4c61-9a13-72c6a5eacd6f.png" 
+              alt="Spotify Logo" 
+              className="h-12 w-12 object-contain" 
+            />
             <div className="flex-grow">
               <h4 className="font-medium">Spotify Integration</h4>
               <p className="text-sm text-gray-400">Access your Spotify playlists and tracks</p>
