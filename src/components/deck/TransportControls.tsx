@@ -2,7 +2,6 @@
 import React from 'react';
 import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 interface TransportControlsProps {
   isPlaying: boolean;
@@ -15,13 +14,11 @@ const TransportControls: React.FC<TransportControlsProps> = ({
   deckColor,
   togglePlay
 }) => {
-  // Map deck color strings to actual Tailwind classes for the button
-  const getButtonClass = (color: string) => {
-    switch (color) {
-      case 'dj-deck1': return 'bg-dj-deck1 hover:bg-dj-deck1/80';
-      case 'dj-deck2': return 'bg-dj-deck2 hover:bg-dj-deck2/80';
-      default: return 'bg-dj-primary hover:bg-dj-primary/80';
-    }
+  // Get the appropriate button class based on the deck color
+  const getButtonClass = () => {
+    if (deckColor === 'blue-500') return 'bg-blue-500 hover:bg-blue-600';
+    if (deckColor === 'red-500') return 'bg-red-500 hover:bg-red-600';
+    return 'bg-gray-500 hover:bg-gray-600';
   };
 
   return (
@@ -31,7 +28,7 @@ const TransportControls: React.FC<TransportControlsProps> = ({
       </Button>
       <Button 
         onClick={togglePlay}
-        className={cn(getButtonClass(deckColor), "px-6")}
+        className={`${getButtonClass()} px-6 text-white`}
       >
         {isPlaying ? (
           <>

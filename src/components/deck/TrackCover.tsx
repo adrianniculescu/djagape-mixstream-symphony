@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { cn } from "@/lib/utils";
 
 interface TrackCoverProps {
   coverUrl: string;
@@ -16,12 +15,10 @@ const TrackCover: React.FC<TrackCoverProps> = ({
   deckColor
 }) => {
   // Map deck color strings to actual Tailwind classes
-  const getColorClass = (color: string) => {
-    switch (color) {
-      case 'dj-deck1': return 'bg-dj-deck1/80';
-      case 'dj-deck2': return 'bg-dj-deck2/80';
-      default: return 'bg-gray-500/80';
-    }
+  const getColorClass = () => {
+    if (deckColor === 'blue-500') return 'bg-blue-500/80';
+    if (deckColor === 'red-500') return 'bg-red-500/80';
+    return 'bg-gray-500/80';
   };
 
   return (
@@ -33,7 +30,7 @@ const TrackCover: React.FC<TrackCoverProps> = ({
       />
       {isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className={cn("w-16 h-16 rounded-full animate-spin-slow flex items-center justify-center", getColorClass(deckColor))}>
+          <div className={`w-16 h-16 rounded-full animate-spin flex items-center justify-center ${getColorClass()}`}>
             <div className="w-4 h-4 rounded-full bg-black"></div>
           </div>
         </div>

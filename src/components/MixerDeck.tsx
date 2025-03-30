@@ -44,6 +44,8 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   const deckColor = side === 'left' ? 'blue-500' : 'red-500';
   const deckLabel = side === 'left' ? 'A' : 'B';
   const textColor = side === 'left' ? 'text-blue-400' : 'text-red-400';
+  const bgColor = side === 'left' ? 'bg-blue-500' : 'bg-red-500';
+  const borderColor = side === 'left' ? 'border-blue-500' : 'border-red-500';
 
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
@@ -51,7 +53,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
       
       <DeckHeader 
         deckLabel={deckLabel} 
-        deckColor={side === 'left' ? 'blue-500' : 'red-500'}
+        deckColor={deckColor}
         loopEnabled={loopEnabled}
         showEffects={showEffects}
         setLoopEnabled={setLoopEnabled}
@@ -63,7 +65,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
           coverUrl={coverUrl}
           trackTitle={trackTitle}
           isPlaying={isPlaying}
-          deckColor={side === 'left' ? 'blue-500' : 'red-500'}
+          deckColor={deckColor}
         />
         
         <div className="flex-grow">
@@ -72,13 +74,29 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
             <p className="text-sm text-gray-400">{trackArtist}</p>
           </div>
 
-          <TrackWaveform 
-            currentTime={currentTime}
-            totalTime={totalTime}
-            deckColor={side === 'left' ? 'blue-500' : 'red-500'}
-            isPlaying={isPlaying}
-            onTimeChange={setCurrentTime}
-          />
+          <div className="waveform mb-3 relative h-16 bg-gray-800 rounded">
+            <div className="absolute inset-0 flex items-end justify-around px-1">
+              {[...Array(40)].map((_, i) => (
+                <div 
+                  key={i}
+                  className={`w-1 ${bgColor} rounded-t`}
+                  style={{ 
+                    height: `${Math.random() * 70 + 10}%`,
+                    opacity: isPlaying ? 1 : 0.5
+                  }}
+                ></div>
+              ))}
+            </div>
+            <div 
+              className={`absolute top-0 bottom-0 left-0 ${side === 'left' ? 'bg-blue-500/20' : 'bg-red-500/20'}`} 
+              style={{ width: `${(currentTime / totalTime) * 100}%` }}
+            ></div>
+          </div>
+
+          <div className="flex justify-between text-xs text-gray-400 mb-1">
+            <span>{Math.floor(currentTime / 60)}:{(currentTime % 60).toString().padStart(2, '0')}</span>
+            <span>-{Math.floor((totalTime - currentTime) / 60)}:{((totalTime - currentTime) % 60).toString().padStart(2, '0')}</span>
+          </div>
 
           <TempoControls 
             keylock={keylock}
@@ -100,7 +118,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
 
       <TransportControls 
         isPlaying={isPlaying}
-        deckColor={side === 'left' ? 'blue-500' : 'red-500'}
+        deckColor={deckColor}
         togglePlay={togglePlay}
       />
     </div>
