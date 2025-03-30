@@ -9,9 +9,11 @@ import { Disc, Mic, CircleStop, Save, BarChart2, Pause, Clock, List, DownloadClo
 import { Track } from '../components/TrackList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import MixerControls from '@/components/MixerControls';
 import RecordingPanel from '@/components/RecordingPanel';
+import MusicUpload from '@/components/MusicUpload';
+import StreamingServiceIntegration from '@/components/StreamingServiceIntegration';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
 
 const MixerPage = () => {
@@ -207,6 +209,8 @@ const MixerPage = () => {
               <div className="flex justify-between items-center py-2">
                 <TabsList className="bg-gray-800">
                   <TabsTrigger value="browser">Track Browser</TabsTrigger>
+                  <TabsTrigger value="upload">Upload</TabsTrigger>
+                  <TabsTrigger value="streaming">Streaming</TabsTrigger>
                   <TabsTrigger value="effects">Effects</TabsTrigger>
                   <TabsTrigger value="recordings">Recordings</TabsTrigger>
                 </TabsList>
@@ -218,6 +222,14 @@ const MixerPage = () => {
               
               <TabsContent value="browser" className="h-[calc(100%-48px)] overflow-auto">
                 <TrackList onTrackSelect={handleTrackSelect} showDeckControls={true} />
+              </TabsContent>
+              
+              <TabsContent value="upload" className="h-[calc(100%-48px)] overflow-auto">
+                <MusicUpload />
+              </TabsContent>
+              
+              <TabsContent value="streaming" className="h-[calc(100%-48px)] overflow-auto">
+                <StreamingServiceIntegration />
               </TabsContent>
               
               <TabsContent value="effects" className="h-[calc(100%-48px)] p-4">

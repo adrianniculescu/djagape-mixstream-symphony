@@ -15,6 +15,15 @@ const TransportControls: React.FC<TransportControlsProps> = ({
   deckColor,
   togglePlay
 }) => {
+  // Map deck color strings to actual Tailwind classes for the button
+  const getButtonClass = (color: string) => {
+    switch (color) {
+      case 'dj-deck1': return 'bg-dj-deck1 hover:bg-dj-deck1/80';
+      case 'dj-deck2': return 'bg-dj-deck2 hover:bg-dj-deck2/80';
+      default: return 'bg-dj-primary hover:bg-dj-primary/80';
+    }
+  };
+
   return (
     <div className="flex justify-center gap-3">
       <Button size="icon" variant="outline">
@@ -22,7 +31,7 @@ const TransportControls: React.FC<TransportControlsProps> = ({
       </Button>
       <Button 
         onClick={togglePlay}
-        className={cn(`bg-${deckColor} hover:bg-${deckColor}/80 px-6`)}
+        className={cn(getButtonClass(deckColor), "px-6")}
       >
         {isPlaying ? (
           <>
