@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Spotify, Music, Globe } from "lucide-react";
+import { Music2, Globe, Headphones } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/components/ui/use-toast";
 
@@ -36,7 +36,7 @@ const StreamingServiceIntegration = () => {
         
         <TabsContent value="spotify" className="space-y-4">
           <div className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg">
-            <Spotify className="h-12 w-12 text-green-500" />
+            <Music2 className="h-12 w-12 text-green-500" />
             <div className="flex-grow">
               <h4 className="font-medium">Spotify Integration</h4>
               <p className="text-sm text-gray-400">Access your Spotify playlists and tracks</p>
@@ -70,7 +70,7 @@ const StreamingServiceIntegration = () => {
         
         <TabsContent value="applemusic" className="space-y-4">
           <div className="flex items-center gap-4 p-4 bg-gray-800/50 rounded-lg">
-            <Music className="h-12 w-12 text-red-500" />
+            <Headphones className="h-12 w-12 text-red-500" />
             <div className="flex-grow">
               <h4 className="font-medium">Apple Music Integration</h4>
               <p className="text-sm text-gray-400">Access your Apple Music library and playlists</p>
