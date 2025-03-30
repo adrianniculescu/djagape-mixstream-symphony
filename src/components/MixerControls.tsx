@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Slider } from "@/components/ui/slider";
-import { Volume2, Music, Disc } from 'lucide-react';
+import { Volume2, Music, Disc, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 interface MixerControlsProps {
   crossfade: number;
@@ -9,6 +10,16 @@ interface MixerControlsProps {
 }
 
 const MixerControls: React.FC<MixerControlsProps> = ({ crossfade, setCrossfade }) => {
+  const syncDecks = () => {
+    // In a real app, this would sync BPM between decks
+    const toast = document.createEvent('CustomEvent');
+    toast.initCustomEvent('toast', true, true, {
+      title: "Decks Synced",
+      description: "BPM matched between decks"
+    });
+    document.dispatchEvent(toast);
+  };
+
   return (
     <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg p-4 mb-6 border border-gray-700">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -25,7 +36,7 @@ const MixerControls: React.FC<MixerControlsProps> = ({ crossfade, setCrossfade }
         {/* Crossfader */}
         <div className="flex flex-col gap-3">
           <h3 className="text-sm font-semibold text-center">CROSSFADER</h3>
-          <div className="flex justify-between items-center mt-4">
+          <div className="flex justify-between items-center mt-2">
             <div className="w-8 h-8 rounded-full bg-dj-deck1 flex items-center justify-center">
               <Disc className="h-5 w-5 text-black" />
             </div>
@@ -47,6 +58,18 @@ const MixerControls: React.FC<MixerControlsProps> = ({ crossfade, setCrossfade }
             <span className="text-xs">Deck A</span>
             <span className="text-xs">{crossfade}%</span>
             <span className="text-xs">Deck B</span>
+          </div>
+          
+          {/* Sync Button */}
+          <div className="flex justify-center mt-2">
+            <Button 
+              onClick={syncDecks}
+              className="bg-gradient-to-r from-dj-deck1 to-dj-deck2 hover:opacity-90"
+            >
+              <ChevronsLeft className="h-4 w-4" />
+              SYNC DECKS
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
           </div>
         </div>
         
