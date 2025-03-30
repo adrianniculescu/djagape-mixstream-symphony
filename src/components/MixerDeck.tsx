@@ -8,6 +8,7 @@ import TempoControls from './deck/TempoControls';
 import DeckEffects from './deck/DeckEffects';
 import DeckControls from './deck/DeckControls';
 import TransportControls from './deck/TransportControls';
+import { useToast } from "@/hooks/use-toast";
 
 interface MixerDeckProps {
   side: 'left' | 'right';
@@ -30,19 +31,27 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   const [showEffects, setShowEffects] = useState(false);
   const [loopEnabled, setLoopEnabled] = useState(false);
   const [keylock, setKeylock] = useState(true);
+  const { toast } = useToast();
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
+    toast({
+      title: isPlaying ? "Playback Paused" : "Playback Started",
+      description: `${trackTitle} - ${trackArtist}`
+    });
   };
 
-  const deckColor = side === 'left' ? 'dj-deck1' : 'dj-deck2';
+  const deckColor = side === 'left' ? 'blue-500' : 'red-500';
   const deckLabel = side === 'left' ? 'A' : 'B';
+  const textColor = side === 'left' ? 'text-blue-400' : 'text-red-400';
 
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col">
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
+      <div className={`${textColor} font-bold text-lg mb-2`}>Deck {deckLabel}</div>
+      
       <DeckHeader 
         deckLabel={deckLabel} 
-        deckColor={deckColor}
+        deckColor={side === 'left' ? 'blue-500' : 'red-500'}
         loopEnabled={loopEnabled}
         showEffects={showEffects}
         setLoopEnabled={setLoopEnabled}
@@ -54,7 +63,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
           coverUrl={coverUrl}
           trackTitle={trackTitle}
           isPlaying={isPlaying}
-          deckColor={deckColor}
+          deckColor={side === 'left' ? 'blue-500' : 'red-500'}
         />
         
         <div className="flex-grow">
@@ -66,7 +75,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
           <TrackWaveform 
             currentTime={currentTime}
             totalTime={totalTime}
-            deckColor={deckColor}
+            deckColor={side === 'left' ? 'blue-500' : 'red-500'}
             isPlaying={isPlaying}
             onTimeChange={setCurrentTime}
           />
@@ -91,7 +100,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
 
       <TransportControls 
         isPlaying={isPlaying}
-        deckColor={deckColor}
+        deckColor={side === 'left' ? 'blue-500' : 'red-500'}
         togglePlay={togglePlay}
       />
     </div>
