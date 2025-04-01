@@ -74,6 +74,9 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   const deckLabel = side === 'left' ? 'A' : 'B';
   const textColor = side === 'left' ? 'text-blue-500' : 'text-red-500';
   
+  // Console log to debug rendering
+  console.log(`Rendering MixerDeck ${deckLabel} with color ${deckColor}`);
+  
   return (
     <div className="bg-gray-900 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
       <div className={`${textColor} font-bold text-lg mb-2`}>Deck {deckLabel}</div>

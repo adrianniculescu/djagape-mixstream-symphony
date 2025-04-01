@@ -14,7 +14,7 @@ const TrackCover: React.FC<TrackCoverProps> = ({
   isPlaying,
   deckColor
 }) => {
-  // Map deck color strings to actual Tailwind classes
+  // Map deck color strings to actual CSS classes
   const getColorClass = () => {
     if (deckColor === 'blue-500') return 'bg-blue-500';
     if (deckColor === 'red-500') return 'bg-red-500';

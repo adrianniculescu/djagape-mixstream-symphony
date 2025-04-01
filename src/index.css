@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,8 +40,33 @@
     @apply border-border;
   }
   body {
-    @apply bg-dj-background text-dj-text;
+    @apply bg-background text-foreground;
   }
+}
+
+/* Custom styles for DJ app */
+.bg-dj-background {
+  @apply bg-black;
+}
+
+.text-dj-text {
+  @apply text-white;
+}
+
+.bg-dj-primary {
+  @apply bg-green-500;
+}
+
+.bg-dj-secondary {
+  @apply bg-blue-500;
+}
+
+.text-dj-accent {
+  @apply text-purple-400;
+}
+
+.border-dj-accent {
+  @apply border-purple-400;
 }
 
 /* Custom styles for waveforms */
