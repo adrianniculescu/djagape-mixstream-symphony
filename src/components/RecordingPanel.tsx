@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Play, Trash2, Share2, DownloadCloud, Clock, Music, Settings, Volume2 } from 'lucide-react';
+import { Play, Trash2, Share2, DownloadCloud, Clock, Music, Settings, Volume2, Check } from 'lucide-react';
 import { Slider } from "@/components/ui/slider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
+import { Progress } from "@/components/ui/progress";
 
 const RecordingPanel = () => {
   const [selectedRecording, setSelectedRecording] = useState<number | null>(null);
@@ -18,6 +19,8 @@ const RecordingPanel = () => {
     autoLevels: true
   });
   const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
+  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   // In a real app, this would be fetched from a database or storage
   const recordings = [
@@ -28,15 +31,66 @@ const RecordingPanel = () => {
     { id: 5, title: 'Techno Underground', date: '2023-04-15', duration: '01:45:20', size: '126.7 MB' },
   ];
 
-  const handleExport = (id: number) => {
+  const handleExport = (id: number, format = recordingSettings.format, quality = recordingSettings.quality) => {
     setIsExporting(true);
+    setExportProgress(0);
     
-    // Simulate export process
+    // Find the recording
+    const recording = recordings.find(rec => rec.id === id);
+    
+    // Simulate export process with progress
+    const interval = setInterval(() => {
+      setExportProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setIsExporting(false);
+          
+          // Create a fake download URL (in a real app, this would be a Blob URL)
+          setDownloadUrl(`#download-${recording?.title}-${format}-${quality}`);
+          
+          toast({
+            title: "Export Complete",
+            description: `Your mix "${recording?.title}" has been exported as a crystal-clear ${format.toUpperCase()} file at ${quality}kbps.`,
+          });
+          return 100;
+        }
+        return prev + 5;
+      });
+    }, 200);
+  };
+  
+  const handlePlayRecording = (id: number) => {
+    setSelectedRecording(selectedRecording === id ? null : id);
+    
+    toast({
+      title: "Playback Started",
+      description: `Now playing "${recordings.find(r => r.id === id)?.title}"`,
+    });
+  };
+  
+  const handleDeleteRecording = (id: number) => {
+    // In a real app, this would delete from a database/storage
+    toast({
+      title: "Recording Deleted",
+      description: `"${recordings.find(r => r.id === id)?.title}" has been removed from your library.`,
+      variant: "destructive",
+    });
+  };
+
+  const handleDownload = (recordingId: number) => {
+    // In a real app, this would trigger a file download
+    const recording = recordings.find(r => r.id === recordingId);
+    
+    toast({
+      title: "Download Started",
+      description: `Downloading "${recording?.title}" as ${recordingSettings.format.toUpperCase()} (${recordingSettings.quality}kbps).`,
+    });
+    
+    // Simulate download delay
     setTimeout(() => {
-      setIsExporting(false);
       toast({
-        title: "Export Complete",
-        description: `Your mix has been exported as a crystal-clear ${recordingSettings.format.toUpperCase()} file at ${recordingSettings.quality}kbps.`,
+        title: "Download Complete",
+        description: `"${recording?.title}" has been saved to your device.`,
       });
     }, 2000);
   };
@@ -107,7 +161,7 @@ const RecordingPanel = () => {
               </div>
               
               <div className="grid gap-2">
-                <Label>Normalization</Label>
+                <Label>Audio Enhancement</Label>
                 <div className="flex items-center gap-4">
                   <Input 
                     type="checkbox" 
@@ -129,7 +183,7 @@ const RecordingPanel = () => {
               </div>
             </div>
             <DialogFooter>
-              <Button type="submit">Save Settings</Button>
+              <Button type="submit" className="bg-blue-500 hover:bg-blue-600">Save Settings</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -153,9 +207,14 @@ const RecordingPanel = () => {
             </div>
             
             <div className="flex items-center gap-2">
-              <Button size="sm" variant="default" className="bg-dj-primary hover:bg-dj-primary/80">
+              <Button 
+                size="sm" 
+                variant="default" 
+                className={selectedRecording === recording.id ? "bg-green-600 hover:bg-green-700" : "bg-blue-500 hover:bg-blue-600"}
+                onClick={() => handlePlayRecording(recording.id)}
+              >
                 <Play className="h-4 w-4 mr-1" />
-                Play
+                {selectedRecording === recording.id ? "Playing" : "Play"}
               </Button>
               <Dialog>
                 <DialogTrigger asChild>
@@ -173,18 +232,18 @@ const RecordingPanel = () => {
                   <div className="space-y-4 py-4">
                     <div className="space-y-2">
                       <Label>Output Format</Label>
-                      <RadioGroup defaultValue="mp3" className="flex space-x-4">
+                      <RadioGroup defaultValue={recordingSettings.format} className="flex space-x-4">
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="mp3" id="export-mp3" />
-                          <Label htmlFor="export-mp3">MP3</Label>
+                          <RadioGroupItem value="mp3" id={`export-mp3-${recording.id}`} />
+                          <Label htmlFor={`export-mp3-${recording.id}`}>MP3</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="wav" id="export-wav" />
-                          <Label htmlFor="export-wav">WAV</Label>
+                          <RadioGroupItem value="wav" id={`export-wav-${recording.id}`} />
+                          <Label htmlFor={`export-wav-${recording.id}`}>WAV</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <RadioGroupItem value="flac" id="export-flac" />
-                          <Label htmlFor="export-flac">FLAC</Label>
+                          <RadioGroupItem value="flac" id={`export-flac-${recording.id}`} />
+                          <Label htmlFor={`export-flac-${recording.id}`}>FLAC</Label>
                         </div>
                       </RadioGroup>
                     </div>
@@ -195,22 +254,54 @@ const RecordingPanel = () => {
                       </div>
                       <Slider defaultValue={[70]} max={100} step={1} />
                     </div>
+                    
+                    {isExporting && (
+                      <div className="space-y-2 pt-2">
+                        <div className="flex justify-between">
+                          <Label>Export Progress</Label>
+                          <span className="text-sm text-gray-400">{exportProgress}%</span>
+                        </div>
+                        <Progress value={exportProgress} className="h-2" />
+                      </div>
+                    )}
+                    
+                    {downloadUrl && !isExporting && (
+                      <div className="bg-green-500/10 border border-green-500/30 rounded p-3 flex items-center gap-2">
+                        <Check className="h-4 w-4 text-green-500" />
+                        <span className="text-sm text-green-400">Export complete! Ready to download.</span>
+                      </div>
+                    )}
                   </div>
-                  <DialogFooter>
-                    <Button 
-                      onClick={() => handleExport(recording.id)} 
-                      disabled={isExporting}
-                      className="bg-dj-primary hover:bg-dj-primary/80"
-                    >
-                      {isExporting ? 'Exporting...' : 'Export Mix'}
-                    </Button>
+                  <DialogFooter className="flex gap-2">
+                    {downloadUrl && !isExporting ? (
+                      <Button 
+                        onClick={() => handleDownload(recording.id)} 
+                        className="bg-blue-500 hover:bg-blue-600"
+                      >
+                        <DownloadCloud className="h-4 w-4 mr-2" />
+                        Download
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={() => handleExport(recording.id)} 
+                        disabled={isExporting}
+                        className="bg-blue-500 hover:bg-blue-600"
+                      >
+                        {isExporting ? 'Processing...' : 'Export Mix'}
+                      </Button>
+                    )}
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
               <Button size="icon" variant="outline">
                 <Share2 className="h-4 w-4" />
               </Button>
-              <Button size="icon" variant="outline" className="text-red-500 hover:text-red-400 hover:bg-red-500/10">
+              <Button 
+                size="icon" 
+                variant="outline" 
+                className="text-red-500 hover:text-red-400 hover:bg-red-500/10"
+                onClick={() => handleDeleteRecording(recording.id)}
+              >
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>

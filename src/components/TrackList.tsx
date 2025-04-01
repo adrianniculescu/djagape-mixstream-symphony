@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Play, Pause, Clock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
