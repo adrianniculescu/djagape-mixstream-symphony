@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import DeckHeader from './deck/DeckHeader';
 import TrackCover from './deck/TrackCover';
@@ -27,11 +27,36 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   const [volume, setVolume] = useState(75);
   const [pitch, setPitch] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [totalTime, setTotalTime] = useState(180); // 3 minutes in seconds (example)
+  const [totalTime, setTotalTime] = useState(180); // 3 minutes in seconds
   const [showEffects, setShowEffects] = useState(false);
   const [loopEnabled, setLoopEnabled] = useState(false);
   const [keylock, setKeylock] = useState(true);
   const { toast } = useToast();
+
+  // Timer effect to simulate playback
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setCurrentTime((prev) => {
+          if (prev >= totalTime) {
+            if (loopEnabled) {
+              return 0;
+            } else {
+              setIsPlaying(false);
+              return prev;
+            }
+          }
+          return prev + 1;
+        });
+      }, 1000);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying, totalTime, loopEnabled]);
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
@@ -41,14 +66,16 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
     });
   };
 
+  const handleTimeChange = (time: number) => {
+    setCurrentTime(time);
+  };
+
   const deckColor = side === 'left' ? 'blue-500' : 'red-500';
   const deckLabel = side === 'left' ? 'A' : 'B';
-  const textColor = side === 'left' ? 'text-blue-400' : 'text-red-400';
-  const bgColor = side === 'left' ? 'bg-blue-500' : 'bg-red-500';
-  const borderColor = side === 'left' ? 'border-blue-500' : 'border-red-500';
-
+  const textColor = side === 'left' ? 'text-blue-500' : 'text-red-500';
+  
   return (
-    <div className="bg-gradient-to-b from-gray-900 to-gray-800 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
+    <div className="bg-gray-900 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
       <div className={`${textColor} font-bold text-lg mb-2`}>Deck {deckLabel}</div>
       
       <DeckHeader 
@@ -70,7 +97,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
         
         <div className="flex-grow">
           <div className="mb-3">
-            <h4 className="font-semibold truncate">{trackTitle}</h4>
+            <h4 className="font-semibold truncate text-white">{trackTitle}</h4>
             <p className="text-sm text-gray-400">{trackArtist}</p>
           </div>
 
@@ -79,7 +106,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
               {[...Array(40)].map((_, i) => (
                 <div 
                   key={i}
-                  className={`w-1 ${bgColor} rounded-t`}
+                  className={`w-1 ${side === 'left' ? 'bg-blue-500' : 'bg-red-500'} rounded-t`}
                   style={{ 
                     height: `${Math.random() * 70 + 10}%`,
                     opacity: isPlaying ? 1 : 0.5
@@ -93,10 +120,13 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
             ></div>
           </div>
 
-          <div className="flex justify-between text-xs text-gray-400 mb-1">
-            <span>{Math.floor(currentTime / 60)}:{(currentTime % 60).toString().padStart(2, '0')}</span>
-            <span>-{Math.floor((totalTime - currentTime) / 60)}:{((totalTime - currentTime) % 60).toString().padStart(2, '0')}</span>
-          </div>
+          <TrackWaveform
+            currentTime={currentTime}
+            totalTime={totalTime}
+            deckColor={deckColor}
+            isPlaying={isPlaying}
+            onTimeChange={handleTimeChange}
+          />
 
           <TempoControls 
             keylock={keylock}

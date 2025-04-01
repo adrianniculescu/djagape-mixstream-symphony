@@ -22,8 +22,8 @@ const TransportControls: React.FC<TransportControlsProps> = ({
   };
 
   return (
-    <div className="flex justify-center gap-3">
-      <Button size="icon" variant="outline">
+    <div className="flex justify-center gap-3 mt-4">
+      <Button size="icon" variant="outline" className="bg-gray-800 border-gray-700">
         <SkipBack className="h-4 w-4" />
       </Button>
       <Button 
@@ -42,7 +42,7 @@ const TransportControls: React.FC<TransportControlsProps> = ({
           </>
         )}
       </Button>
-      <Button size="icon" variant="outline">
+      <Button size="icon" variant="outline" className="bg-gray-800 border-gray-700">
         <SkipForward className="h-4 w-4" />
       </Button>
     </div>
