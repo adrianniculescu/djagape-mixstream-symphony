@@ -58,6 +58,12 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
     };
   }, [isPlaying, totalTime, loopEnabled]);
 
+  // Reset timer when track changes
+  useEffect(() => {
+    setCurrentTime(0);
+    setIsPlaying(false);
+  }, [trackTitle]);
+
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
     toast({
@@ -79,8 +85,6 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
   
   return (
     <div className="bg-gray-900 rounded-lg border border-gray-800 p-4 flex flex-col shadow-lg">
-      <div className={`${textColor} font-bold text-lg mb-2`}>Deck {deckLabel}</div>
-      
       <DeckHeader 
         deckLabel={deckLabel} 
         deckColor={deckColor}
@@ -104,7 +108,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
             <p className="text-sm text-gray-400">{trackArtist}</p>
           </div>
 
-          <div className="waveform mb-3 relative h-16 bg-gray-800 rounded">
+          <div className="mb-3 relative h-16 bg-gray-800 rounded overflow-hidden">
             <div className="absolute inset-0 flex items-end justify-around px-1">
               {[...Array(40)].map((_, i) => (
                 <div 

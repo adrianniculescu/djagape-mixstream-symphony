@@ -22,17 +22,21 @@ const TrackCover: React.FC<TrackCoverProps> = ({
   };
 
   return (
-    <div className="relative w-full sm:w-1/3 aspect-square rounded-lg overflow-hidden bg-black flex-shrink-0">
+    <div className="relative w-full sm:w-48 h-48 rounded-lg overflow-hidden bg-gray-800 flex-shrink-0">
       {coverUrl && (
         <img 
           src={coverUrl} 
           alt={trackTitle} 
           className="w-full h-full object-cover"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://picsum.photos/seed/default/300/300';
+          }}
         />
       )}
       {isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className={`w-16 h-16 rounded-full animate-spin flex items-center justify-center ${getColorClass()} bg-opacity-80`}>
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+          <div className={`w-16 h-16 rounded-full animate-spin-slow flex items-center justify-center ${getColorClass()} bg-opacity-80`}>
             <div className="w-4 h-4 rounded-full bg-black"></div>
           </div>
         </div>
