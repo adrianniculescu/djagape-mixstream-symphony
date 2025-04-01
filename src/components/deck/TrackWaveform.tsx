@@ -24,7 +24,7 @@ const TrackWaveform: React.FC<TrackWaveformProps> = ({
   };
 
   // Get the proper color class based on the deck color
-  const getSliderClass = () => {
+  const getSliderColor = () => {
     if (deckColor === 'blue-500') return 'bg-blue-500';
     if (deckColor === 'red-500') return 'bg-red-500';
     return 'bg-gray-500';
@@ -32,13 +32,21 @@ const TrackWaveform: React.FC<TrackWaveformProps> = ({
 
   return (
     <>
-      <Slider
-        value={[currentTime]}
-        max={totalTime || 100}
-        step={1}
-        onValueChange={(value) => onTimeChange(value[0])}
-        className="h-1.5 mb-3"
-      />
+      <div className="relative">
+        <Slider
+          value={[currentTime]}
+          max={totalTime || 100}
+          step={1}
+          onValueChange={(value) => onTimeChange(value[0])}
+          className="h-1.5 mb-3"
+        />
+        <div className="absolute inset-0 pointer-events-none">
+          <div 
+            className={`h-full ${getSliderColor()} opacity-70`} 
+            style={{ width: `${(currentTime / (totalTime || 100)) * 100}%` }}
+          />
+        </div>
+      </div>
       <div className="flex justify-between text-xs text-gray-400 mb-1">
         <span>{formatTime(currentTime)}</span>
         <span>-{formatTime(totalTime - currentTime)}</span>

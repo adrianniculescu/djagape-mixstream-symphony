@@ -33,12 +33,12 @@ const TransportControls: React.FC<TransportControlsProps> = ({
         {isPlaying ? (
           <>
             <Pause className="mr-2 h-4 w-4" />
-            Pause
+            <span>Pause</span>
           </>
         ) : (
           <>
             <Play className="mr-2 h-4 w-4" />
-            Play
+            <span>Play</span>
           </>
         )}
       </Button>

@@ -115,7 +115,7 @@ const MixerDeck: React.FC<MixerDeckProps> = ({
               ))}
             </div>
             <div 
-              className={`absolute top-0 bottom-0 left-0 ${side === 'left' ? 'bg-blue-500/20' : 'bg-red-500/20'}`} 
+              className={`absolute top-0 bottom-0 left-0 ${side === 'left' ? 'bg-blue-500' : 'bg-red-500'} bg-opacity-20`} 
               style={{ width: `${(currentTime / totalTime) * 100}%` }}
             ></div>
           </div>
