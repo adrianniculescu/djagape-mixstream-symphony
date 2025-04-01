@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import MixerDeck from '../components/MixerDeck';
@@ -112,7 +111,7 @@ const MixerPage = () => {
     title: 'Summer Vibes',
     artist: 'DJ Sunshine',
     bpm: 128,
-    duration: 240,
+    duration: '240', // Changed from number to string
     coverUrl: 'https://picsum.photos/seed/track1/300/300',
     key: 'Cm'
   };
@@ -122,7 +121,7 @@ const MixerPage = () => {
     title: 'Night Bass',
     artist: 'MC Groove',
     bpm: 130,
-    duration: 215,
+    duration: '215', // Changed from number to string
     coverUrl: 'https://picsum.photos/seed/track2/300/300',
     key: 'Gm'
   };

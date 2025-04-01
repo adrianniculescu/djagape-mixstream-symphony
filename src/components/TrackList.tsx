@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { Play, Pause, Clock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface Track {
+export interface Track {
   id: string;
   title: string;
   artist: string;
-  duration: string;
+  bpm: number;
+  duration: string; // Changed from number to string
   coverUrl: string;
-  source: string;
-  audioUrl: string;
+  key: string;
 }
 
 // Mock track data
@@ -19,46 +19,46 @@ const mockTracks: Track[] = [
     id: '1',
     title: 'Syncopated Rhythm',
     artist: 'Night Sessions',
+    bpm: 128,
     duration: '5:32',
     coverUrl: 'https://picsum.photos/seed/track1/300/300',
-    source: 'Local Library',
-    audioUrl: ''
+    key: 'Am'
   },
   {
     id: '2',
     title: 'Midnight Express',
     artist: 'DJ Harmony',
+    bpm: 130,
     duration: '6:45',
     coverUrl: 'https://picsum.photos/seed/track2/300/300',
-    source: 'Beatport',
-    audioUrl: ''
+    key: 'Fm'
   },
   {
     id: '3',
     title: 'Euphoric State',
     artist: 'Beat Collective',
+    bpm: 124,
     duration: '4:20',
     coverUrl: 'https://picsum.photos/seed/track3/300/300',
-    source: 'Spotify',
-    audioUrl: ''
+    key: 'Gm'
   },
   {
     id: '4',
     title: 'Deep Dive',
     artist: 'Analog Dreams',
+    bpm: 122,
     duration: '7:12',
     coverUrl: 'https://picsum.photos/seed/track4/300/300',
-    source: 'Local Library',
-    audioUrl: ''
+    key: 'Cm'
   },
   {
     id: '5',
     title: 'Urban Echo',
     artist: 'Audio Architects',
+    bpm: 126,
     duration: '5:55',
     coverUrl: 'https://picsum.photos/seed/track5/300/300',
-    source: 'Beatport',
-    audioUrl: ''
+    key: 'Dm'
   },
 ];
 
@@ -132,11 +132,11 @@ const TrackList: React.FC<TrackListProps> = ({
                 <div className="flex items-center gap-1.5">
                   <div className={`
                     w-2 h-2 rounded-full 
-                    ${track.source === 'Local Library' ? 'bg-dj-primary' : 
-                      track.source === 'Beatport' ? 'bg-dj-secondary' : 
-                      'bg-dj-accent'}
+                    ${i % 2 === 0 ? 'bg-blue-500' : 
+                      i % 3 === 0 ? 'bg-red-500' : 
+                      'bg-purple-500'}
                   `}></div>
-                  <span className="text-gray-400">{track.source}</span>
+                  <span className="text-gray-400">{i % 2 === 0 ? 'Local Library' : i % 3 === 0 ? 'Beatport' : 'Spotify'}</span>
                 </div>
               </td>
               <td className="p-3 text-gray-400 hidden sm:table-cell">{track.duration}</td>
@@ -146,7 +146,7 @@ const TrackList: React.FC<TrackListProps> = ({
                     <Button 
                       size="sm" 
                       variant="outline"
-                      className="text-xs border-dj-deck1 text-dj-deck1 hover:bg-dj-deck1/10"
+                      className="text-xs border-blue-500 text-blue-500 hover:bg-blue-500/10"
                       onClick={() => onTrackSelect(track, 'left')}
                     >
                       Deck A
@@ -154,7 +154,7 @@ const TrackList: React.FC<TrackListProps> = ({
                     <Button 
                       size="sm" 
                       variant="outline"
-                      className="text-xs border-dj-deck2 text-dj-deck2 hover:bg-dj-deck2/10"
+                      className="text-xs border-red-500 text-red-500 hover:bg-red-500/10"
                       onClick={() => onTrackSelect(track, 'right')}
                     >
                       Deck B
