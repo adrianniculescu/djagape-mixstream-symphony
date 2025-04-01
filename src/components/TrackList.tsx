@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Play, Pause, Clock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ export interface Track {
   title: string;
   artist: string;
   bpm: number;
-  duration: string; // Changed from number to string
+  duration: string;
   coverUrl: string;
   key: string;
 }
@@ -170,4 +171,4 @@ const TrackList: React.FC<TrackListProps> = ({
 };
 
 export default TrackList;
-export type { Track };
+// Only export the interface once
