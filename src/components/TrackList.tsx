@@ -17,7 +17,7 @@ export interface Track {
 }
 
 // Mock track data
-const mockTracks: Track[] = [
+const defaultTracks: Track[] = [
   {
     id: '1',
     title: 'Syncopated Rhythm',
@@ -103,14 +103,35 @@ const mockTracks: Track[] = [
 interface TrackListProps {
   onTrackSelect?: (track: Track, deck: 'left' | 'right') => void;
   showDeckControls?: boolean;
+  customTracks?: Track[];
+  onAddTrack?: (track: Track) => void;
 }
 
 const TrackList: React.FC<TrackListProps> = ({ 
   onTrackSelect = () => {}, 
-  showDeckControls = false
+  showDeckControls = false,
+  customTracks,
+  onAddTrack
 }) => {
   const [playing, setPlaying] = useState<string | null>(null);
   const [sourceFilter, setSourceFilter] = useState<string>("all");
+  const [tracks, setTracks] = useState<Track[]>(customTracks || defaultTracks);
+
+  // If tracks are provided via props, update the state
+  React.useEffect(() => {
+    if (customTracks) {
+      setTracks(customTracks);
+    }
+  }, [customTracks]);
+
+  // Add new track to the list
+  React.useEffect(() => {
+    if (onAddTrack) {
+      onAddTrack = (newTrack: Track) => {
+        setTracks(prev => [newTrack, ...prev]);
+      };
+    }
+  }, []);
 
   const togglePlay = (trackId: string) => {
     setPlaying(playing === trackId ? null : trackId);
@@ -143,8 +164,8 @@ const TrackList: React.FC<TrackListProps> = ({
   };
 
   const filteredTracks = sourceFilter === "all" 
-    ? mockTracks 
-    : mockTracks.filter(track => track.source === sourceFilter);
+    ? tracks 
+    : tracks.filter(track => track.source === sourceFilter);
 
   return (
     <div className="w-full">
@@ -281,4 +302,3 @@ const TrackList: React.FC<TrackListProps> = ({
 };
 
 export default TrackList;
-// Only export the interface once

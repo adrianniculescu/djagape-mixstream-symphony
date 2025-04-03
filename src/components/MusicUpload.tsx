@@ -1,11 +1,17 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Upload, Folder, FolderOpen } from "lucide-react";
+import { Upload, Folder, FolderOpen, CheckCircle } from "lucide-react";
 import { toast } from "@/components/ui/use-toast";
 import { Progress } from "@/components/ui/progress";
+import { v4 as uuidv4 } from 'uuid';
+import { Track } from './TrackList';
 
-const MusicUpload = () => {
+interface MusicUploadProps {
+  onTrackUploaded?: (track: Track) => void;
+}
+
+const MusicUpload: React.FC<MusicUploadProps> = ({ onTrackUploaded }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadingFile, setUploadingFile] = useState<string | null>(null);
@@ -33,6 +39,29 @@ const MusicUpload = () => {
     if (e.target.files && e.target.files.length) {
       handleFiles(e.target.files);
     }
+  };
+
+  const extractMetadata = (fileName: string) => {
+    // Simple metadata extraction from filename (Artist - Title.mp3)
+    let artist = "Unknown Artist";
+    let title = fileName;
+    
+    // Remove file extension
+    title = title.replace(/\.[^/.]+$/, "");
+    
+    // Try to split by " - " to get artist and title
+    if (title.includes(" - ")) {
+      const parts = title.split(" - ");
+      artist = parts[0];
+      title = parts.slice(1).join(" - ");
+    }
+    
+    // Generate random BPM and key for demonstration
+    const bpm = Math.floor(Math.random() * 40) + 120; // Random BPM between 120-160
+    const keys = ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm", "A", "B", "C", "D", "E", "F", "G"];
+    const key = keys[Math.floor(Math.random() * keys.length)];
+    
+    return { artist, title, bpm, key };
   };
 
   const handleFiles = (files: FileList) => {
@@ -67,8 +96,28 @@ const MusicUpload = () => {
         if (prev >= 100) {
           clearInterval(interval);
           setTimeout(() => {
+            const { artist, title, bpm, key } = extractMetadata(file.name);
+            
+            // Create a new track object
+            const newTrack: Track = {
+              id: uuidv4(),
+              title,
+              artist,
+              bpm,
+              duration: formatDuration(Math.floor(Math.random() * 300) + 180), // Random duration
+              coverUrl: `https://picsum.photos/seed/${Date.now()}/300/300`, // Random cover art
+              key,
+              source: 'local'
+            };
+            
+            // Call the callback to update the track list
+            if (onTrackUploaded) {
+              onTrackUploaded(newTrack);
+            }
+            
             setUploadProgress(null);
             setUploadingFile(null);
+            
             toast({
               title: "Upload complete",
               description: `${file.name} has been added to your library`,
@@ -79,6 +128,13 @@ const MusicUpload = () => {
         return prev + 5;
       });
     }, 200);
+  };
+
+  // Format duration from seconds to mm:ss
+  const formatDuration = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -126,7 +182,12 @@ const MusicUpload = () => {
             <span className="text-sm truncate max-w-[200px]">{uploadingFile}</span>
             <span className="text-sm">{uploadProgress}%</span>
           </div>
-          <Progress value={uploadProgress} className="h-2" />
+          <div className="relative">
+            <Progress value={uploadProgress} className="h-2" />
+            {uploadProgress === 100 && (
+              <CheckCircle className="h-4 w-4 text-green-500 absolute -right-1 -top-1" />
+            )}
+          </div>
         </div>
       )}
     </div>

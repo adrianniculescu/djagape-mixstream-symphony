@@ -6,8 +6,20 @@ import MusicUpload from '../components/MusicUpload';
 import { Button } from '@/components/ui/button';
 import { Library, Upload, Settings } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
+import { Track } from '@/components/TrackList';
 
 const LibraryPage = () => {
+  const [tracks, setTracks] = useState<Track[]>([]);
+
+  const handleTrackUploaded = (newTrack: Track) => {
+    setTracks(prev => [newTrack, ...prev]);
+    toast({
+      title: "Track added",
+      description: `${newTrack.title} by ${newTrack.artist} has been added to your library`,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-dj-background text-dj-text flex flex-col">
       <NavBar />
@@ -36,13 +48,13 @@ const LibraryPage = () => {
             
             <TabsContent value="tracks" className="mt-4">
               <div className="bg-dj-dark rounded-lg p-4">
-                <TrackList showDeckControls={false} />
+                <TrackList showDeckControls={false} customTracks={tracks} />
               </div>
             </TabsContent>
             
             <TabsContent value="upload" className="mt-4">
               <div className="bg-dj-dark rounded-lg">
-                <MusicUpload />
+                <MusicUpload onTrackUploaded={handleTrackUploaded} />
               </div>
             </TabsContent>
           </Tabs>
